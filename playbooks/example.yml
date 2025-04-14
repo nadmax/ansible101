@@ -1,0 +1,30 @@
+# === Playbook to configure web servers ===
+- name: Configure web servers # Descriptive name for the play
+  hosts: webservers # Target group defined in inventory
+  become: true # Elevate privileges to root (sudo)
+  
+  vars:
+    nginx_package: nginx # Define nginx package as a variable for reuse
+
+  tasks:
+    # --- Task: Install nginx on Debian-based systems ---
+    - name: Install nginx (Debian)
+      apt: # Use the apt module for package management
+        name: "{{ nginx_package }}" # Install the nginx package
+        state: present # Ensure it is installed
+        update_cache: yes # Update package index before installing
+      when: ansible_os_family == 'Debian' # Only run this on Debian/Ubuntu systems
+
+    # --- Task: Install nginx on RedHat-based systems ---
+    - name: Install nginx (RedHat)
+      yum: # Use the yum module for RHEL/CentOS systems
+        name: "{{ nginx_package }}"
+        state: present
+      when: ansible_os_family == 'RedHat' # Only run this on RHEL/CentOS
+
+    # --- Task: Ensure nginx service is running and enabled on boot ---
+    - name: Ensure nginx is running and enabled
+      service:
+        name: nginx # Target service name
+        state: started # Make sure it's running
+        enabled: true # Enable it to start at boot

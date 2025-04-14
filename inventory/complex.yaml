@@ -1,0 +1,59 @@
+all:  # Root group that includes everything
+  children:
+
+    # --- Web Servers Group ---
+    webservers:
+      hosts:
+        web1.example.com:
+          ansible_host: 192.168.1.10       # IP address to connect to
+          ansible_user: ubuntu            # SSH user
+          ansible_port: 22                # SSH port (default, but explicit)
+        web2.example.com:
+          ansible_host: 192.168.1.11
+          ansible_user: ubuntu
+          ansible_ssh_private_key_file: ~/.ssh/id_rsa  # Custom SSH key
+
+    # --- Database Servers Group ---
+    dbservers:
+      hosts:
+        db1.example.com:
+          ansible_host: 192.168.1.20
+          ansible_user: root              # Using root (with become below)
+          ansible_become: true            # Elevate privileges with sudo
+        db2.example.com: {}               # Defaults will be applied (hostname must be resolvable)
+
+    # --- Load Balancers Group ---
+    loadbalancers:
+      hosts:
+        lb1.example.com:
+          ansible_user: admin             # Connect as 'admin'
+        lb2.example.com:
+          ansible_user: admin
+
+    # --- Jump/Bastion Hosts ---
+    jump_hosts:
+      hosts:
+        bastion.example.com:
+          ansible_host: 203.0.113.1
+          ansible_user: ec2-user
+          ansible_connection: ssh
+          ansible_ssh_common_args: >
+            -o ProxyCommand="ssh -W %h:%p -q gateway.example.com"  # SSH proxy via gateway
+
+    # --- App Group (Group of Groups) ---
+    app:
+      children:
+        webservers:                       # Includes all web servers
+        dbservers:                        # Includes all DB servers
+
+    # --- Production Group (Nested Group) ---
+    production:
+      children:
+        app:                              # All application servers (web + DB)
+        loadbalancers:                    # Plus load balancers
+
+    # --- Miscellaneous Hosts ---
+    misc:
+      hosts:
+        standalone.example.com:
+          ansible_host: 192.168.1.99      # Standalone host with no group role
