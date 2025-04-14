@@ -1,6 +1,6 @@
 # ansible101
 
-![Ansible Logo](https://github.com/nadmax/ansible101/blob/master/assets/ansible.png)
+![Ansible Logo](https://github.com/nadmax/ansible101/blob/master/assets/ansible.jpg)
 
 **This document is the complete version with every Ansible feature explained.**  
 
