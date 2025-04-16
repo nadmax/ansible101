@@ -46,6 +46,10 @@ Managed nodes refer to the target devices (servers, network appliances or any co
 It is not recommended to install Ansible on managed nodes.  
 
 ## Inventory
+*Note: there are many things to explain about Ansible Inventory.*  
+*I cover here the basics.*  
+*[Please refer to the complete guide here](https://github.com/nadmax/ansible101/blob/master/inventory/README.md)*  
+
 An Ansible inventory is a list or group of host name lists used to automatically manage tasks on nodes in your infrastructure.  
 Inventory can be passed at command line, but it is recommanded to create an inventory files.  
 
