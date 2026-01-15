@@ -1,6 +1,4 @@
-# ansible101
-
-![Ansible Logo](https://github.com/nadmax/ansible101/blob/master/assets/ansible.jpg)
+# Ansible
 
 **This document is the complete version with each Ansible concept explained.**  
 **Please refer to the list of concepts below if you want to see just one that interests you.** 
